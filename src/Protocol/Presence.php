@@ -118,6 +118,8 @@ class Presence implements ProtocolImplementationInterface
      */
     protected $to;
 
+    protected $from;
+
     /**
      * Priority.
      *
@@ -162,8 +164,11 @@ class Presence implements ProtocolImplementationInterface
             $presence .= ' to="' . XML::quote($this->getTo()) . '/' . XML::quote($this->getNickname()) . '"';
         }
 
+        $presence .= ' from="' . $this->from  . '" ';
+
         $presence .= '><priority>' . $this->getPriority() . '</priority>';
 
+        $presence .= "<x xmlns='http://jabber.org/protocol/muc'/>";
         if (null !== $this->getPassword()) {
             $presence .= "<x xmlns='http://jabber.org/protocol/muc'><password>" . $this->getPassword() . "</password></x>";
         }
@@ -202,6 +207,12 @@ class Presence implements ProtocolImplementationInterface
     public function getTo()
     {
         return $this->to;
+    }
+
+    public function setFrom($from = null)
+    {
+        $this->from = $from;
+        return $this;
     }
 
     /**
